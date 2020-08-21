@@ -31,20 +31,18 @@
 
 #include "OMSysIdent.h"
 #include "FitModel.h"
-#include <Logging.h>
+#include <glog/logging.h>
 
 void* omsi_newSysIdentModel(const char* ident)
 {
-  logTrace();
   FitModel* pFitModel = new FitModel(ident);
   return (void*) pFitModel;
 }
 
 void omsi_freeSysIdentModel(void* simodel)
 {
-  logTrace();
   if (!simodel) {
-    logError("omsi_freeSysIdentModel: invalid pointer");
+    LOG(ERROR) << "omsi_freeSysIdentModel: invalid pointer";
     return;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -56,9 +54,8 @@ oms_status_enu_t omsi_initialize(void* simodel, size_t nSeries,
   char const* const* inputvars, size_t nInputvars,
   char const* const* measurementvars, size_t nMeasurementvars)
 {
-  logTrace();
   if (!simodel) {
-    logError("omsi_initialize: invalid pointer");
+    LOG(ERROR) << "omsi_initialize: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -67,9 +64,8 @@ oms_status_enu_t omsi_initialize(void* simodel, size_t nSeries,
 
 oms_status_enu_t omsi_describe(void* simodel)
 {
-  logTrace();
   if (!simodel) {
-    logError("omsi_describe: invalid pointer");
+    LOG(ERROR) << "omsi_describe: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -79,9 +75,8 @@ oms_status_enu_t omsi_describe(void* simodel)
 
 oms_status_enu_t omsi_addParameter(void* simodel, const char* var, double startvalue)
 {
-  logTrace();
   if (!simodel || !var) {
-    logError("omsi_addParameter: invalid pointer");
+    LOG(ERROR) << "omsi_addParameter: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -91,9 +86,8 @@ oms_status_enu_t omsi_addParameter(void* simodel, const char* var, double startv
 
 oms_status_enu_t omsi_getParameter(void* simodel, const char* var, double* startvalue, double* estimatedvalue)
 {
-  logTrace();
   if (!simodel || !var || !startvalue || !estimatedvalue) {
-    logError("omsi_addParameter: invalid pointer");
+    LOG(ERROR) << "omsi_addParameter: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -106,9 +100,8 @@ oms_status_enu_t omsi_getParameter(void* simodel, const char* var, double* start
 
 oms_status_enu_t omsi_addMeasurement(void* simodel, size_t iSeries, const char* var, const double* values, size_t nValues)
 {
-  logTrace();
   if (!simodel || !var || !values) {
-    logError("omsi_addMeasurement: invalid pointer");
+    LOG(ERROR) << "omsi_addMeasurement: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -118,9 +111,8 @@ oms_status_enu_t omsi_addMeasurement(void* simodel, size_t iSeries, const char* 
 
 oms_status_enu_t omsi_addInput(void* simodel, const char* var, const double* values, size_t nValues)
 {
-  logTrace();
   if (!simodel || !var || !values) {
-    logError("omsi_addInput: invalid pointer");
+    LOG(ERROR) << "omsi_addInput: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -130,9 +122,8 @@ oms_status_enu_t omsi_addInput(void* simodel, const char* var, const double* val
 
 oms_status_enu_t omsi_setOptions_max_num_iterations(void* simodel, size_t max_num_iterations)
 {
-  logTrace();
   if (!simodel) {
-    logError("omsi_addMeasurement: invalid pointer");
+    LOG(ERROR) << "omsi_addMeasurement: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -142,9 +133,8 @@ oms_status_enu_t omsi_setOptions_max_num_iterations(void* simodel, size_t max_nu
 
 oms_status_enu_t omsi_solve(void* simodel, const char* reporttype)
 {
-  logTrace();
   if (!simodel) {
-    logError("omsi_solve: invalid pointer");
+    LOG(ERROR) << "omsi_solve: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;
@@ -153,9 +143,8 @@ oms_status_enu_t omsi_solve(void* simodel, const char* reporttype)
 
 oms_status_enu_t omsi_getState(void* simodel, omsi_simodelstate_t* state)
 {
-  logTrace();
   if (!simodel) {
-    logError("omsi_getState: invalid pointer");
+    LOG(ERROR) << "omsi_getState: invalid pointer";
     return oms_status_error;
   }
   FitModel* pFitModel = (FitModel*) simodel;

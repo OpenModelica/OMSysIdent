@@ -33,7 +33,6 @@
 
 #include "FitModel.h"
 #include <OMSimulator.h>
-#include <Logging.h>
 
 #include "ceres/ceres.h"
 #include "glog/logging.h"
@@ -48,7 +47,6 @@ typedef Eigen::Matrix<double, Dynamic, 1> Vector;
 typedef Eigen::Matrix<double, Dynamic, Dynamic, RowMajor> Matrix;
 
 std::string seriesPropertiesString(std::string var, std::vector<SeriesMap> series) {
-  logTrace();
   std::stringstream ss;
   ss << "indexSizeMap=[";
   int size = series.size();
@@ -177,16 +175,17 @@ std::map<std::string, TimeSeries> to_varname_TimeSeries_Map(std::vector<SeriesMa
 
 oms_status_enu_t FitModel::solve(const char* reporttype)
 {
-  logTrace();
-
   oms_instantiate(oms_modelIdent_);
 
-  if (!this->isDataComplete())
-    return logError("FitModel::solve: Incomplete data, please check measurements etc.");
+  if (!this->isDataComplete()) {
+    LOG(ERROR) << "FitModel::solve: Incomplete data, please check measurements etc.";
+    return oms_status_error;
+  }
 
   std::string report = reporttype ? std::string(reporttype) : std::string("");
   if ( !(report == "" || report == "FullReport" || report == "BriefReport") ) {
-    return logError(std::string("FitModel::solve: Invalid argument reporttype=")+report);
+    LOG(ERROR) << "FitModel::solve: Invalid argument reporttype=" << report;
+    return oms_status_error;
   }
 
   if (report == "")
@@ -278,11 +277,13 @@ oms_status_enu_t FitModel::solve(const char* reporttype)
     case ceres::TerminationType::NO_CONVERGENCE: state_=FitModelState::NO_CONVERGENCE; break;
     case ceres::TerminationType::FAILURE: {
       state_=FitModelState::FAILURE;
-      return logError("FitModel::solve: Ceres solver returned with TerminationType::FAILURE");
+      LOG(ERROR) << "FitModel::solve: Ceres solver returned with TerminationType::FAILURE";
+      return oms_status_error;
     }
     default: {
-      return logError(std::string("FitModel::solve: Ceres solver returned with unhandled summary.termination_type=") +
-        std::to_string(summary.termination_type));
+      LOG(ERROR) << "FitModel::solve: Ceres solver returned with unhandled summary.termination_type=" 
+        << std::to_string(summary.termination_type);
+      return oms_status_error;
     }
   }
   return oms_status_ok;
@@ -290,7 +291,6 @@ oms_status_enu_t FitModel::solve(const char* reporttype)
 
 FitModel::FitModel(const char* oms_modelIdent) : oms_modelIdent_(oms_modelIdent)
 {
-  logTrace();
   options_.max_num_iterations = 25;
   options_.linear_solver_type = ceres::DENSE_QR;
   options_.minimizer_progress_to_stdout = true;
@@ -299,10 +299,9 @@ FitModel::FitModel(const char* oms_modelIdent) : oms_modelIdent_(oms_modelIdent)
 
 oms_status_enu_t FitModel::initialize(size_t nSeries, const double* time, size_t nTime, char const* const* inputvars, size_t nInputvars, char const* const* measurementvars, size_t nMeasurementvars)
 {
-  logTrace();
   oms_status_enu_t status = oms_status_ok;
   if (state_ != FitModelState::CONSTRUCTED) {
-    logWarning("FitModel::initialize: Reinitialization of initialized object, clearing existing data.");
+    LOG(WARNING) << "FitModel::initialize: Reinitialization of initialized object, clearing existing data.";
     status = oms_status_warning;
   }
 
@@ -312,16 +311,20 @@ oms_status_enu_t FitModel::initialize(size_t nSeries, const double* time, size_t
   mdata_.inputVars.clear();
   for (int i=0; i < nInputvars; ++i) {
     auto ret = mdata_.inputVars.insert(std::string(inputvars[i]));
-    if (!ret.second)
-      return logError("FitModel::initialize: Duplicate element '"+std::string(inputvars[i])+"' in inputvars.");
+    if (!ret.second) {
+      LOG(ERROR) << "FitModel::initialize: Duplicate element '" << inputvars[i] << "' in inputvars.";
+      return oms_status_error;
+    }
   }
 
   mdata_.measurementVars.clear();
   for (int i=0; i < nMeasurementvars; ++i)
   {
     auto ret = mdata_.measurementVars.insert(std::string(measurementvars[i]));
-    if (!ret.second)
-      return logError("FitModel::initialize: Duplicate element '"+std::string(inputvars[i])+"' in measurementvars.");
+    if (!ret.second) {
+      LOG(ERROR) << "FitModel::initialize: Duplicate element '" << inputvars[i] << "' in measurementvars.";
+      return oms_status_error;
+    }
   }
 
   mdata_.nSeries = nSeries;
@@ -336,15 +339,17 @@ oms_status_enu_t FitModel::initialize(size_t nSeries, const double* time, size_t
 
 oms_status_enu_t FitModel::addParameter(const char* var, double startvalue)
 {
-  logTrace();
   oms_status_enu_t status = oms_status_ok;
-  if (state_ < FitModelState::INITIALIZED)
-    return logError("FitModel::addParameter:  Calling method on uninitialized object.");
+  if (state_ < FitModelState::INITIALIZED) {
+    LOG(ERROR) << "FitModel::addParameter:  Calling method on uninitialized object.";
+    return oms_status_error;
+  }
 
   if (parameters_.find(var) != parameters_.end())
   {
     std::string message = std::string("FitModel::addParameter: ") + var + "already exists in parameter set. Overwriting entry.\n";
-    status = logWarning(message);
+    LOG(WARNING) << message;
+    status = oms_status_warning;
   }
 
   parameters_[var] = ParameterAttributes {startvalue, startvalue};
@@ -353,20 +358,20 @@ oms_status_enu_t FitModel::addParameter(const char* var, double startvalue)
 
 oms_status_enu_t FitModel::addMeasurement(size_t iSeries, const char* var, const double* values, size_t nValues)
 {
-  logTrace();
   oms_status_enu_t status = oms_status_ok;
   if (state_ < FitModelState::INITIALIZED) {
-    logError("FitModel::addMeasurement:  Calling method on uninitialized object.");
+    LOG(ERROR) << "FitModel::addMeasurement:  Calling method on uninitialized object.";
     return oms_status_error;
   }
   if (iSeries >= mdata_.nSeries) {
-    return logError(std::string("FitModel::addMeasurement: index iSeries="+std::to_string(iSeries)+" out of range."));
+    LOG(ERROR) << "FitModel::addMeasurement: index iSeries=" << iSeries << " out of range.";
+    return oms_status_error;
   }
 
   auto it = mdata_.measurementSeries[iSeries].find(var);
   if (it != mdata_.measurementSeries[iSeries].end()) {
-    logWarning(std::string("FitModel::addMeasurement: Measurement series "
-      +std::to_string(iSeries) + " for variable " + var + " already exists. Overwriting!"));
+    LOG(WARNING) << "FitModel::addMeasurement: Measurement series "
+      << iSeries << " for variable " << var << " already exists. Overwriting!";
     it->second.resize(nValues);
     std::copy(values, values+nValues, it->second.begin());
     status = oms_status_warning;
@@ -379,16 +384,16 @@ oms_status_enu_t FitModel::addMeasurement(size_t iSeries, const char* var, const
 
 oms_status_enu_t FitModel::addInput(const char* var, const double* values, size_t nValues)
 {
-  logTrace();
   oms_status_enu_t status = oms_status_ok;
   if (state_ < FitModelState::INITIALIZED) {
-    return logError("FitModel::addInput:  Calling method on uninitialized object.");
+    LOG(ERROR) << "FitModel::addInput:  Calling method on uninitialized object.";
+    return oms_status_error;
   }
 
   auto it = mdata_.inputSeries[0].find(var);
   if (it != mdata_.inputSeries[0].end()) {
-    logWarning(std::string("FitModel::addInput: Input series for variable ")
-      + var + std::string(" already exists. Overwriting!"));
+    LOG(WARNING) << "FitModel::addInput: Input series for variable "
+      << var << " already exists. Overwriting!";
     it->second.resize(nValues);
     std::copy(values, values+nValues, it->second.begin());
     status = oms_status_warning;
@@ -400,29 +405,26 @@ oms_status_enu_t FitModel::addInput(const char* var, const double* values, size_
 
 FitModelState FitModel::getState()
 {
-  logTrace();
   return state_;
 }
 
 oms_status_enu_t FitModel::getParameter(const char* var, ParameterAttributes& attributes)
 {
-  logTrace();
   auto it = parameters_.find(var);
-  if (it == parameters_.end())
-    return logError(std::string("FitModel::getParameter: Cannot find parameter '") + var);
+  if (it == parameters_.end()) {
+    LOG(ERROR) << "FitModel::getParameter: Cannot find parameter '" << var;
+  }
   attributes = it->second;
   return oms_status_ok;
 }
 
 void FitModel::setOptions_max_num_iterations(size_t max_num_iterations)
 {
-  logTrace();
   options_.max_num_iterations = max_num_iterations;
 }
 
 bool FitModel::isDataComplete() const
 {
-  logTrace();
   // Check if input and measurement series entries are available
   size_t nSeries_spec = mdata_.nSeries;
   if (mdata_.measurementSeries.size() != nSeries_spec) return false;
@@ -455,7 +457,6 @@ bool FitModel::isDataComplete() const
 
 std::string FitModel::toString() const
 {
-  logTrace();
   std::stringstream ss;
   ss << "FitModel(\nstate = ";
   switch (state_) {

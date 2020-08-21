@@ -82,11 +82,10 @@ add_subdirectory(src)
 ################################################################################
 # Tests
 ################################################################################
-# add_subdirectory(tests)
+add_subdirectory(tests)
 
 
-# # add_library(OMSysIdent OMSysIdent.cpp)
-#
+# Add support for packaging?
 # set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 # set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 # include(CPack)

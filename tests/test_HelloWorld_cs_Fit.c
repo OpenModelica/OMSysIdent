@@ -67,7 +67,7 @@ int test_HelloWorld_cs_Fit()
   ASSERT(status == oms_status_ok);
   status = oms_addSystem(SYSTEMIDENT, oms_system_wc);
   ASSERT(status == oms_status_ok);
-  status = oms_addSubModel(FMUIDENT, "../resources/HelloWorld.fmu");
+  status = oms_addSubModel(FMUIDENT, "resources/HelloWorld.fmu");
   ASSERT(status == oms_status_ok);
   oms_setTolerance(SYSTEMIDENT, 1e-5, 1e-5);
 

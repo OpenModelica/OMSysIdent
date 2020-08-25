@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD 11)
 # set(CMAKE_C_STANDARD 99) # Set C standard if needed
 # set(CMAKE_BUILD_TYPE DEBUG)
 
+# TODO Use below in project
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/config.cmake/")
 include(GetGitRevisionDescription)
 git_describe(OMSI_VERSION_STRING --tags --abbrev=7) # --match=v*.*

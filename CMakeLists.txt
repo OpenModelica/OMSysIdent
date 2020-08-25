@@ -17,8 +17,9 @@ include(GetGitRevisionDescription)
 git_describe(OMSI_VERSION_STRING --tags --abbrev=7) # --match=v*.*
 
 # Default install directory
+# TODO Remove `/linux` from prefix and adapt logic accordingly
 IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/install CACHE PATH "Installation prefix path" FORCE)
+  set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/install/linux CACHE PATH "Installation prefix path" FORCE)
 ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 # Put all output artifacts into same folder to make Windows happy (so that DLLs are found by dependent artifacts).
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin CACHE STRING "")

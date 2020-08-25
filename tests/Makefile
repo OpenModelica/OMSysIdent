@@ -5,9 +5,9 @@ all: difftool test
 
 test: python.log
 
-# TODO add partest as in OMSimulator?
-# partest: difftool resources
-# 	cd partest && time ./runtests.pl -nocolour -with-xml
+# Exclude `resources` for the moment
+partest: difftool
+	cd partest && time ./runtests.pl -nocolour -with-xml
 
 difftool:
 	@$(MAKE) -C difftool

@@ -5,14 +5,20 @@ find_library(OMSimulator_LIBRARY
   HINTS ${OMSimulator_ROOT}/lib
 )
 
+find_library(OMTLMSimulator_LIBRARY
+  NAMES omtlmsimulator
+  HINTS ${OMSimulator_ROOT}/lib
+)
+
 if(OMSimulator_LIBRARY)
   set(OMSimulator_LIBRARYDIR ${OMSimulator_ROOT}/lib)
   set(OMSimulator_INCLUDEDIR ${OMSimulator_ROOT}/include)
-  message(STATUS "Found CVODE")
+  message(STATUS "Found OMSimulator")
   message(STATUS "  OMSimulator_ROOT:       " ${OMSimulator_ROOT})
   message(STATUS "  OMSimulator_LIBRARY:    " ${OMSimulator_LIBRARY})
   message(STATUS "  OMSimulator_LIBRARYDIR: " ${OMSimulator_LIBRARYDIR})
   message(STATUS "  OMSimulator_INCLUDEDIR: " ${OMSimulator_INCLUDEDIR})
+  message(STATUS "  OMTLMSimulator_LIBRARY: " ${OMTLMSimulator_LIBRARY})
 else()
   if(OMSimulator_FIND_REQUIRED)
     message(STATUS "Unable to find the requested OMSimulator" )

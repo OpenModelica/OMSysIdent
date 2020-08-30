@@ -193,7 +193,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OMSimulatordoc'
+htmlhelp_basename = 'OMSysIdentdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -277,6 +277,7 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 OMSysIdentLua = ""
+OMSysIdentPython = ""
 
 for filename in sorted(filter(lambda file: file.endswith('.rst'), os.listdir('api'))):
   OMSysIdentLua = OMSysIdentLua + ".. " + filename + "\n\n"
@@ -284,4 +285,10 @@ for filename in sorted(filter(lambda file: file.endswith('.rst'), os.listdir('ap
   OMSysIdentLua = OMSysIdentLua + ".. include:: api/" + filename + "\n  :start-after: #LUA#\n  :end-before: #END#\n\n"
   OMSysIdentLua = OMSysIdentLua + ".. include:: api/" + filename + "\n  :start-after: #DESCRIPTION#\n  :end-before: #END#\n\n"
 
+  OMSysIdentPython = OMSysIdentPython + ".. " + filename + "\n\n"
+  OMSysIdentPython = OMSysIdentPython + ".. include:: api/" + filename + "\n  :start-after: #CAPTION#\n  :end-before: #END#\n\n"
+  OMSysIdentPython = OMSysIdentPython + ".. include:: api/" + filename + "\n  :start-after: #PYTHON#\n  :end-before: #END#\n\n"
+  OMSysIdentPython = OMSysIdentPython + ".. include:: api/" + filename + "\n  :start-after: #DESCRIPTION#\n  :end-before: #END#\n\n"
+
 open("OMSysIdentLua.inc", "w").write("%s" % OMSysIdentLua)
+open("OMSysIdentPython.inc", "w").write("%s" % OMSysIdentPython)

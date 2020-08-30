@@ -1,5 +1,15 @@
 .. index:: OMSysIdent
 
+.. Get arrow |rarr| (https://docutils.sourceforge.io/docs/ref/rst/definitions.html)
+
+.. include:: <isonum.txt>
+
+.. Define line break |br| (https://stackoverflow.com/questions/51198270/how-do-i-create-a-new-line-with-restructuredtext/51199504)
+
+.. |br| raw:: html
+
+  <br/>
+
 OMSysIdent
 ==========
 
@@ -126,3 +136,10 @@ Lua Scripting Commands
 .. _omsi-lua :
 
 .. include:: OMSysIdentLua.inc
+
+Python Scripting Commands
+#########################
+
+.. _omsi-python :
+
+.. include:: OMSysIdentPython.inc

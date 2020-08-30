@@ -1,4 +1,4 @@
-message(STATUS "WRITING BUILD FILES FOR tests")
+message(STATUS "WRITING BUILD FILES FOR testsuite")
 
 ################################################################################
 # Testing
@@ -15,11 +15,11 @@ add_executable(test_HelloWorld_cs_Fit test_HelloWorld_cs_Fit.c)
 target_link_libraries(test_HelloWorld_cs_Fit OMSysIdent ${CERES_LIBRARIES} OMSimulator)
 add_test(NAME test_HelloWorld_cs_Fit
   COMMAND test_HelloWorld_cs_Fit
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/tests)
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(test_Lin2DimODE_cs_Fit test_Lin2DimODE_cs_Fit.cpp)
 target_include_directories(test_Lin2DimODE_cs_Fit PRIVATE ${CMAKE_SOURCE_DIR}/3rdParty/eigen/eigen)
 target_link_libraries(test_Lin2DimODE_cs_Fit OMSysIdent ${CERES_LIBRARIES} OMSimulator)
 add_test(NAME test_Lin2DimODE_cs_Fit
   COMMAND test_Lin2DimODE_cs_Fit
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/tests)
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

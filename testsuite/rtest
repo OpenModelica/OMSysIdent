@@ -8,7 +8,7 @@ use File::Temp qw/ tempfile /;
 
 (undef,$testTempFile) = tempfile("rtest$$.XXXXX", TMPDIR => 1, SUFFIX => ".tmp", UNLINK => 1);
 $cwd = getcwd;
-if ($cwd =~ m/(.*)\/tests\/(.+)$/) {
+if ($cwd =~ m/(.*)\/testsuite\/(.+)$/) {
   $prefix = $1;
   $dirname = $2;
   $os = `uname`;

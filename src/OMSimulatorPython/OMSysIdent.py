@@ -126,6 +126,7 @@ class OMSysIdent:
             fq_var, values, len(values))
 
     def addInput(self, var, values):
+        """FIXME: Check arguments, seems array of time instants is missn!?"""
         fq_var = self.ident + b"." + self.checkstring(var)
         return self.obj.omsi_addInput(self.simodel, fq_var, values, len(values))
 

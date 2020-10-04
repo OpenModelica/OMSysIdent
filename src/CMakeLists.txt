@@ -24,9 +24,8 @@ install(FILES OMSysIdent.h DESTINATION include)
 # TODO export package config in install
 
 install(FILES OMSimulatorPython/OMSysIdent.py DESTINATION lib)
-install(FILES ${OMSimulator_ROOT}/bin/OMSimulatorPython DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
 install(FILES ${OMSimulator_ROOT}/bin/OMSimulatorPython3 DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
-#install(FILES ${OMSimulator_ROOT}/bin/OMSimulatorPython.bat DESTINATION bin) # TODO WINDOWS
+#install(FILES ${OMSimulator_ROOT}/bin/OMSimulatorPython3.bat DESTINATION bin) # TODO WINDOWS
 install(FILES ${OMSimulator_ROOT}/lib/OMSimulator.py DESTINATION lib)
 install(FILES ${OMSimulator_LIBRARY} DESTINATION lib)
 install(FILES ${OMTLMSimulator_LIBRARY} DESTINATION lib)

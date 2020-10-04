@@ -5,6 +5,18 @@ omsi_getState
 Get state of SysIdent model object.
 #END#
 
+#PYTHON#
+
+Returns:
+  :status: (int) The C-API status code (`oms_status_enu_t`).
+  :state: (int) State of SysIdent model (`omsi_simodelstate_t`).
+
+.. code-block:: python
+
+  status, state = omsi.getState()
+
+#END#
+
 #LUA#
 .. code-block:: lua
 

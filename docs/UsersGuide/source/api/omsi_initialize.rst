@@ -9,13 +9,13 @@ This function initializes a given composite model. After this call, the model is
 #PYTHON#
 
 Args:
-  :nSeries: int → Number of measurement series.
-  :time: numpy.array → Array of measurement/input time instants.
-  :inputvars: list of str → List of names of input variables (empty list if none).
-  :measurmentvars: list of str → List of names of observed measurement variables.
+  :nSeries: (int) Number of measurement series.
+  :time: (numpy.array) Array of measurement/input time instants.
+  :inputvars: (list of str) List of names of input variables (empty list if none).
+  :measurmentvars: (list of str) List of names of observed measurement variables.
 
-Returns: 
-  :status: int → The C-API status code (`oms_status_enu_t`).
+Returns:
+  :status: (int) The C-API status code (`oms_status_enu_t`).
 
 .. code-block:: python
 

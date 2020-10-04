@@ -8,12 +8,12 @@ Add measurement values for a fitting variable.
 #PYTHON#
 
 Args:
-  :iSeries: int → Index of measurement series.
-  :var: str → Name of variable..
-  :values: np.array → List of names of input variables (empty list if none).
+  :iSeries: (int) Index of measurement series.
+  :var: (str) Name of variable..
+  :values: (np.array) List of names of input variables (empty list if none).
 
-Returns: 
-  :status: int → The C-API status code (`oms_status_enu_t`).
+Returns:
+  :status: (int) The C-API status code (`oms_status_enu_t`).
 
 .. code-block:: python
 

@@ -5,6 +5,20 @@ omsi_setOptions_max_num_iterations
 Set Ceres solver option `Solver::Options::max_num_iterations`.
 #END#
 
+#PYTHON#
+
+Args:
+  :max_num_iterations: (int) Maximum number of iterations for which the solver should run (default: 25).
+
+Returns:
+  :status: (int) The C-API status code (`oms_status_enu_t`).
+
+.. code-block:: python
+
+  status = omsi.setOptions_max_num_iterations(max_num_iterations)
+
+#END#
+
 #LUA#
 .. code-block:: lua
 

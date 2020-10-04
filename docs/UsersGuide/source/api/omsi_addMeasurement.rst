@@ -10,7 +10,7 @@ Add measurement values for a fitting variable.
 Args:
   :iSeries: (int) Index of measurement series.
   :var: (str) Name of variable..
-  :values: (np.array) List of names of input variables (empty list if none).
+  :values: (np.array) Array of measured values for respective time instants in `omsi.initialize()`.
 
 Returns:
   :status: (int) The C-API status code (`oms_status_enu_t`).

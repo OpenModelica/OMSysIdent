@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# OMSimulator documentation build configuration file, created by
+# Documentation build configuration file, created by
 # sphinx-quickstart on Tue May 23 22:46:57 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -58,10 +58,11 @@ copyright = u'OSMC'
 release = '?.?'
 version = '?.?'
 # The full version, including alpha/beta/rc tags.
+# FIXME 2020-10-04 Doesn't work as intended. Added "--always" so that least no error is generated
 if os.path.exists('../../../.git'):
   r = git.repo.Repo('../../..')
-  release = r.git.describe(["--tags", "--abbrev=7", "--match=v*.*"])
-  version = r.git.describe(["--tags", "--abbrev=7", "--match=v*.*"])
+  release = r.git.describe(["--always", "--tags", "--abbrev=7", "--match=v*.*"])
+  version = r.git.describe(["--always", "--tags", "--abbrev=7", "--match=v*.*"])
 
 open("releaselink.inc", "w").write("Version: %s" % version)
 

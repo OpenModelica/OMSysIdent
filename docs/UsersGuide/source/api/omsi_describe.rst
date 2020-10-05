@@ -5,6 +5,14 @@ omsi_describe
 Print summary of SysIdent model.
 #END#
 
+#PYTHON#
+
+.. code-block:: python
+
+  status = omsi.describe()
+
+#END#
+
 #LUA#
 .. code-block:: lua
 

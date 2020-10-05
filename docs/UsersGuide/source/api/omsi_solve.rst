@@ -5,6 +5,21 @@ omsi_solve
 Solve parameter estimation problem.
 #END#
 
+#PYTHON#
+
+Args:
+  :reporttype: (str) Print report and progress information after call to Ceres solver.
+               Supported report types: `"", "BriefReport", "FullReport"`, where `""` denotes no output.
+
+Returns:
+  :status: (int) The C-API status code (`oms_status_enu_t`).
+
+.. code-block:: python
+
+  status = omsi.solve(reporttype)
+
+#END#
+
 #LUA#
 .. code-block:: lua
 

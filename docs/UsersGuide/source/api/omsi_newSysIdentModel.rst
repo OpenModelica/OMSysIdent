@@ -5,6 +5,22 @@ omsi_newSysIdentModel
 Creates an empty model for parameter estimation.
 #END#
 
+#PYTHON#
+
+The corresponding Python function is the class constructor.
+
+Args:
+  :ident: (str) Name of the model instance.
+
+Returns:
+  :omsi: SysIdent model instance.
+
+.. code-block:: python
+
+  omsi = OMSysIdent(ident)
+
+#END#
+
 #LUA#
 .. code-block:: lua
 

@@ -1,4 +1,4 @@
-OMSimulator's documentation
+OMSysIdent's documentation
 ==============================
 
 .. only :: html or epub

@@ -5,6 +5,21 @@ omsi_addParameter
 Add parameter that should be estimated.
 #END#
 
+#PYTHON#
+
+Args:
+  :var: (str) Name of parameter.
+  :startvalue: (float) Start value of parameter.
+
+Returns:
+  :status: (int) The C-API status code (`oms_status_enu_t`).
+
+.. code-block:: python
+
+  status = omsi.addParameter(var, startvalue)
+
+#END#
+
 #LUA#
 .. code-block:: lua
 

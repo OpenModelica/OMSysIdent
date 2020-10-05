@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# OMSimulator documentation build configuration file, created by
+# Documentation build configuration file, created by
 # sphinx-quickstart on Tue May 23 22:46:57 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -58,10 +58,11 @@ copyright = u'OSMC'
 release = '?.?'
 version = '?.?'
 # The full version, including alpha/beta/rc tags.
+# FIXME 2020-10-04 Doesn't work as intended. Added "--always" so that least no error is generated
 if os.path.exists('../../../.git'):
   r = git.repo.Repo('../../..')
-  release = r.git.describe(["--tags", "--abbrev=7", "--match=v*.*"])
-  version = r.git.describe(["--tags", "--abbrev=7", "--match=v*.*"])
+  release = r.git.describe(["--always", "--tags", "--abbrev=7", "--match=v*.*"])
+  version = r.git.describe(["--always", "--tags", "--abbrev=7", "--match=v*.*"])
 
 open("releaselink.inc", "w").write("Version: %s" % version)
 
@@ -193,7 +194,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OMSimulatordoc'
+htmlhelp_basename = 'OMSysIdentdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -277,6 +278,7 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 OMSysIdentLua = ""
+OMSysIdentPython = ""
 
 for filename in sorted(filter(lambda file: file.endswith('.rst'), os.listdir('api'))):
   OMSysIdentLua = OMSysIdentLua + ".. " + filename + "\n\n"
@@ -284,4 +286,10 @@ for filename in sorted(filter(lambda file: file.endswith('.rst'), os.listdir('ap
   OMSysIdentLua = OMSysIdentLua + ".. include:: api/" + filename + "\n  :start-after: #LUA#\n  :end-before: #END#\n\n"
   OMSysIdentLua = OMSysIdentLua + ".. include:: api/" + filename + "\n  :start-after: #DESCRIPTION#\n  :end-before: #END#\n\n"
 
+  OMSysIdentPython = OMSysIdentPython + ".. " + filename + "\n\n"
+  OMSysIdentPython = OMSysIdentPython + ".. include:: api/" + filename + "\n  :start-after: #CAPTION#\n  :end-before: #END#\n\n"
+  OMSysIdentPython = OMSysIdentPython + ".. include:: api/" + filename + "\n  :start-after: #PYTHON#\n  :end-before: #END#\n\n"
+  OMSysIdentPython = OMSysIdentPython + ".. include:: api/" + filename + "\n  :start-after: #DESCRIPTION#\n  :end-before: #END#\n\n"
+
 open("OMSysIdentLua.inc", "w").write("%s" % OMSysIdentLua)
+open("OMSysIdentPython.inc", "w").write("%s" % OMSysIdentPython)

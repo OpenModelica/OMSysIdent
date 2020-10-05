@@ -5,6 +5,22 @@ omsi_addMeasurement
 Add measurement values for a fitting variable.
 #END#
 
+#PYTHON#
+
+Args:
+  :iSeries: (int) Index of measurement series.
+  :var: (str) Name of variable..
+  :values: (np.array) Array of measured values for respective time instants in `omsi.initialize()`.
+
+Returns:
+  :status: (int) The C-API status code (`oms_status_enu_t`).
+
+.. code-block:: python
+
+  status = omsi.addMeasurement(iSeries, var, values)
+
+#END#
+
 #LUA#
 .. code-block:: lua
 

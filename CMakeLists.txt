@@ -84,7 +84,7 @@ add_subdirectory(src)
 ################################################################################
 # Tests
 ################################################################################
-add_subdirectory(tests)
+add_subdirectory(testsuite)
 
 
 # Add support for packaging?

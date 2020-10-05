@@ -93,18 +93,22 @@ class OMSysIdent:
         self.obj.omsi_getState.argtypes = [ctypes.POINTER(ctypes.c_void_p), ctypes.POINTER(ctypes.c_int)]
         self.obj.omsi_getState.restype = ctypes.c_int
 
-        self.simodel = self.obj.omsi_newSysIdentModel(ident)
-        self.ident = ident
+        self.simodel = self.omsi_newSysIdentModel(ident)
+        self.ident = self.checkstring(ident)
 
     def __del__(self):
         """Destructor will free external C object."""
         self.obj.omsi_freeSysIdentModel(self.simodel)
 
+    def omsi_newSysIdentModel(self, ident):
+        return self.obj.omsi_newSysIdentModel(self.checkstring(ident))
+
+
     def initialize(self, nSeries, time, inputvars, measurementvars):
-        fq_inputvars = list(map(lambda x: self.ident + "." + x, inputvars))
+        fq_inputvars = list(map(lambda x: self.ident + b"." + self.checkstring(x), inputvars))
         invars = (ctypes.c_char_p * len(fq_inputvars))()
         invars[:] = fq_inputvars
-        fq_measurementvars = list(map(lambda x: self.ident + "." + x, measurementvars))
+        fq_measurementvars = list(map(lambda x: self.ident + b"." + self.checkstring(x), measurementvars))
         mesvars = (ctypes.c_char_p * len(fq_measurementvars))()
         mesvars[:] = fq_measurementvars
         return self.obj.omsi_initialize(self.simodel, nSeries,
@@ -117,20 +121,21 @@ class OMSysIdent:
         return self.obj.omsi_describe(self.simodel)
 
     def addMeasurement(self, iSeries, var, values):
-        fq_var = self.ident + "." + var
+        fq_var = self.ident + b"." + self.checkstring(var)
         return self.obj.omsi_addMeasurement(self.simodel, iSeries,
             fq_var, values, len(values))
 
     def addInput(self, var, values):
-        fq_var = self.ident + "." + var
+        """FIXME: Check arguments, seems array of time instants is missn!?"""
+        fq_var = self.ident + b"." + self.checkstring(var)
         return self.obj.omsi_addInput(self.simodel, fq_var, values, len(values))
 
     def addParameter(self, var, startvalue):
-        fq_var = self.ident + "." + var
+        fq_var = self.ident + b"." + self.checkstring(var)
         return self.obj.omsi_addParameter(self.simodel, fq_var, startvalue)
 
     def getParameter(self, var):
-        fq_var = self.ident + "." + var
+        fq_var = self.ident + b"." + self.checkstring(var)
         startvalue = ctypes.c_double()
         estimatedvalue = ctypes.c_double()
         status = self.obj.omsi_getParameter(
@@ -138,7 +143,7 @@ class OMSysIdent:
         return (status, startvalue.value, estimatedvalue.value)
 
     def solve(self, reporttype):
-        return self.obj.omsi_solve(self.simodel, reporttype)
+        return self.obj.omsi_solve(self.simodel, self.checkstring(reporttype))
 
     def setOptions_max_num_iterations(self, max_num_iterations):
         return self.obj.omsi_setOptions_max_num_iterations(self.simodel, max_num_iterations)
@@ -203,3 +208,10 @@ class OMSysIdent:
         """
         omsi_simodelstate_t_dict = {0: "omsi_simodelstate_constructed", 1: "omsi_simodelstate_initialized", 2: "omsi_simodelstate_convergence", 3: "omsi_simodelstate_no_convergence", 4: "omsi_simodelstate_failure"}
         return omsi_simodelstate_t_dict[state]
+
+    def checkstring(self, ident):
+        if isinstance(ident, str):
+            ident = ident.encode()
+        elif isinstance(ident, bytes):
+            ident = ident.decode("utf-8")
+        return ident

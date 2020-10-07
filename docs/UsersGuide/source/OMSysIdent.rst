@@ -13,8 +13,8 @@
 OMSysIdent
 ==========
 
-OMSysIdent is a module for the parameter estimation of behavioral models
-(wrapped as FMUs) on top of the OMSimulator API.
+OMSysIdent is a module for the parameter estimation for linear and nonlinear
+parametric dynamic models (wrapped as FMUs) on top of the OMSimulator API.
 It uses the Ceres solver (http://ceres-solver.org/) for the optimization task.
 
 .. index:: OMSysIdent; Examples

@@ -2,7 +2,8 @@
 
 OMSysIdent is a module for the parameter estimation for linear and nonlinear
 parametric dynamic models (wrapped as FMUs) on top of the OMSimulator API.
-It uses the Ceres solver (http://ceres-solver.org/) for the optimization task.
+It uses the [Ceres solver](http://ceres-solver.org/) for the optimization task.
+It is part of the [OpenModelica](https://openmodelica.org/) tool suite.
 
 The module provides a _Python scripting API_ as well a _C API_. Examples for using
 these APIs can be found below the `testsuite` directory.

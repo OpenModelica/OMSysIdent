@@ -1,6 +1,0 @@
-# generated directories
-/build/
-
-# generated files
-/source/*.inc
-/source/api/*.inc

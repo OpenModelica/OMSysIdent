@@ -5,8 +5,9 @@ parametric dynamic models (wrapped as FMUs) on top of the OMSimulator API.
 It uses the [Ceres solver](http://ceres-solver.org/) for the optimization task.
 It is part of the [OpenModelica](https://openmodelica.org/) tool suite.
 
-The module provides a _Python scripting API_ as well a _C API_. Examples for using
-these APIs can be found below the `testsuite` directory.
+The module provides a _Python scripting API_ as well a _C API_. They are documented in the
+[OpenModelica User's Guide](https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/systemidentification.html).
+Examples for using these APIs can be found below the `testsuite` directory.
 
 Notice that this module was previously part of OMSimulator. It has been extracted
 out of the OMSimulator project and reorganized as a separate project in September 2020.
@@ -19,7 +20,6 @@ more convenient.
 - [OMSimulator](https://github.com/OpenModelica/OMSimulator/)
 - [cmake](http://www.cmake.org)
 - Optional - [Python](https://www.python.org/) for using the Python scripting API
-- Optional - [Sphinx](http://www.sphinx-doc.org/en/stable/) for documentation generation
 - Included 3rdParty libraries
   - Ceres Solver
   - Eigen

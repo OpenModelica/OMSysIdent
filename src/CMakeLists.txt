@@ -10,8 +10,12 @@ add_library(OMSysIdent SHARED
 set_property(TARGET OMSysIdent PROPERTY INSTALL_RPATH "$ORIGIN/")
 set_property(TARGET OMSysIdent PROPERTY CXX_STANDARD 11)
 set_target_properties(OMSysIdent PROPERTIES POSITION_INDEPENDENT_CODE ON)
-link_directories(${OMSimulator_LIBRARYDIR}) # Currently needed, but discouraged (https://cmake.org/cmake/help/latest/command/target_link_directories.html)
-# target_link_directories(OMSysIdent PUBLIC ${OMSimulator_LIBRARYDIR}) # Variant of above available in cmake version >= v3.13
+# Currently needed, but discouraged (https://cmake.org/cmake/help/latest/command/target_link_directories.html)
+if(${CMAKE_VERSION} VERSION_LESS "3.13.0")
+  link_directories(${OMSimulator_LIBRARYDIR})
+else()
+  target_link_directories(OMSysIdent PUBLIC ${OMSimulator_LIBRARYDIR})
+endif()
 target_link_libraries(OMSysIdent PUBLIC OMSimulator PRIVATE ${CERES_LIBRARIES} ) # ${CMAKE_DL_LIBS}, Threads::Threads?
 # target_link_libraries(OMSysIdent PUBLIC ${OMSimulator_LIBRARY} PRIVATE ${CERES_LIBRARIES} ) # Better alternative, but with it RPATH rewritting fails
 target_include_directories(OMSysIdent PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src> $<INSTALL_INTERFACE:Include> ${OMSimulator_INCLUDEDIR}
